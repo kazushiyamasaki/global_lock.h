@@ -1,7 +1,7 @@
 /*
  * global_lock.h -- a header file providing a single global lock with
  *                  macro-configurable name and scope
- * version 0.9.0, June 12, 2025
+ * version 0.9.2, June 14, 2025
  *
  * License: zlib License
  *
@@ -32,7 +32,7 @@
  * Be sure to properly define the GLOBAL_LOCK_FUNC_NAME,
  * GLOBAL_UNLOCK_FUNC_NAME and GLOBAL_LOCK_FUNC_SCOPE macros before including
  * this header file. GLOBAL_LOCK_FUNC_SCOPE only accepts 'static' or blank.
- * 
+ *
  * Additionally, you must call global_lock_quit(); when the program
  * terminates.
  */
@@ -54,17 +54,22 @@
 #include <stdlib.h>
 
 
+#if !defined (__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+	#error "This program requires C99 or higher."
+#endif
+
+
+#if defined (_WIN32) && (!defined(_WIN32_WINNT) || (_WIN32_WINNT < 0x0600))
+	#error "This program requires Windows Vista or later. Define _WIN32_WINNT accordingly."
+#endif
+
+
 #ifdef __GNUC__
 	#define LIKELY(x)   __builtin_expect(!!(x), 1)
 	#define UNLIKELY(x) __builtin_expect(!!(x), 0)
 #else
 	#define LIKELY(x)   (x)
 	#define UNLIKELY(x) (x)
-#endif
-
-
-#if defined (_WIN32) && (!defined(_WIN32_WINNT) || (_WIN32_WINNT < 0x0600))
-	#error "This program requires Windows Vista or later. Define _WIN32_WINNT accordingly."
 #endif
 
 
