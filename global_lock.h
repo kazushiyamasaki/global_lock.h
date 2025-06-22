@@ -1,7 +1,7 @@
 /*
  * global_lock.h -- a header file providing a single global lock with
  *                  macro-configurable name and scope
- * version 0.9.2, June 14, 2025
+ * version 0.9.5, June 22, 2025
  *
  * License: zlib License
  *
@@ -64,12 +64,19 @@
 #endif
 
 
-#ifdef __GNUC__
-	#define LIKELY(x)   __builtin_expect(!!(x), 1)
-	#define UNLIKELY(x) __builtin_expect(!!(x), 0)
-#else
-	#define LIKELY(x)   (x)
-	#define UNLIKELY(x) (x)
+#ifndef LIKELY
+	#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-macros"
+
+		#define LIKELY(x)   __builtin_expect(!!(x), 1)
+		#define UNLIKELY(x) __builtin_expect(!!(x), 0)
+	
+#pragma GCC diagnostic pop
+	#else
+		#define LIKELY(x)   (x)
+		#define UNLIKELY(x) (x)
+	#endif
 #endif
 
 
