@@ -166,7 +166,7 @@
 #endif
 
 
-GLOBAL_LOCK_FUNC_SCOPE void GLOBAL_LOCK_FUNC_NAME (void) {
+GLOBAL_LOCK_FUNC_SCOPE int GLOBAL_LOCK_FUNC_NAME (void) {
 #ifdef C11_THREADS_AVAILABLE
 	call_once(&mtx_init_once, init_mtx);
 
@@ -197,6 +197,8 @@ GLOBAL_LOCK_FUNC_SCOPE void GLOBAL_LOCK_FUNC_NAME (void) {
 		SPIN_WAIT();
 	}
 #endif
+
+	return 0;
 }
 
 
