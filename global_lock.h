@@ -1,7 +1,7 @@
 /*
  * global_lock.h -- a header file providing a single global lock with
  *                  macro-configurable name and scope
- * version 0.9.5, June 22, 2025
+ * version 0.9.6, June 25, 2025
  *
  * License: zlib License
  *
@@ -90,7 +90,7 @@
 	#define C11_THREADS_AVAILABLE
 
 	#include <threads.h>
-	static mtx_t global_lock_lock_mutex;
+	static mtx_t global_lock_lock_mutex;  // 後で置き換え
 	static once_flag mtx_init_once = ONCE_FLAG_INIT;
 
 	static void init_mtx (void) {
